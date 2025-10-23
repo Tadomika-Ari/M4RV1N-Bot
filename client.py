@@ -17,6 +17,15 @@ async def on_ready():
     print(f"Je suis connecté")
     await bot.change_presence(activity=discord.Game("42"), status=discord.Status.online)
 
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
 
+    if message.content.startswith('$hello'):
+        await message.channel.send('Hello!')
+    
+    if message.content.startswith('$ping'):
+        await message.channel.send('pong')
 
 bot.run(TOKEN)
