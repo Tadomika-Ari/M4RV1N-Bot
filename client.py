@@ -9,12 +9,31 @@ TOKEN = config["token"]
 
 bot = discord.Bot()
 
+basecommand = bot.create_group("base", "Greet people")
+
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 @bot.slash_command(name="hello", description="Say hello to the bot")
 async def hello(ctx: discord.ApplicationContext):
+    print("Commande Hello")
     await ctx.respond("Hey!")
 
+@basecommand.command()
+async def bye(ctx):
+  print("Commande Bye")
+  await ctx.respond(f"Bye, {ctx.author}!")
+
+@basecommand.command(name="ping", description="Say hello to the bot")
+async def ping(ctx):
+   print("Commande Ping")
+   await ctx.respond(f"Pong ! {bot.latency} ms")
+
+@bot.slash_command(name="embed", description="Create a embed")
+async def tableau(interaction : discord.Interaction):
+   embed = discord.Embed(title='Test', description='Its a test')
+   embed.set_footer(text=f"Créer par {interaction.user.name}")
+   await interaction.response.send_message(embed=embed)
+   
 bot.run(TOKEN)
