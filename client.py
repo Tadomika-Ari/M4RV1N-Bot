@@ -31,8 +31,9 @@ async def ping(ctx):
    await ctx.respond(f"Pong ! {bot.latency} ms")
 
 @bot.slash_command(name="embed", description="Create a embed")
-async def tableau(interaction : discord.Interaction):
-   embed = discord.Embed(title='Test', description='Its a test')
+async def tableau(interaction : discord.Interaction, title: str, description: str, time: str):
+   embed = discord.Embed(title=f"{title}", description=f"{description}")
+   embed.add_field(name="Le tournoi commence dans :", value=f"Le trournoi commance dans <t:{time}:R>")
    embed.set_footer(text=f"Créer par {interaction.user.name}")
    await interaction.response.send_message(embed=embed)
    
