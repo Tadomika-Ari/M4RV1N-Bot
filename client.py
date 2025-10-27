@@ -37,4 +37,9 @@ async def tableau(interaction : discord.Interaction, title: str, description: st
    embed.set_footer(text=f"Créer par {interaction.user.name}")
    await interaction.response.send_message(embed=embed)
    
+@bot.slash_command(name="bio", description="The bio of Marvin")
+async def bio(ctx):
+  print("Commande bio")
+  await ctx.respond(f"Je suis Marvin, un robot de l'univers de H2G2. J'ai été développé afin de subvenir aux besoins du serveur Club Epigaming. Maintenant que je suis là l'avenir de ce serveur est sauvé!")
+
 bot.run(TOKEN)
