@@ -42,4 +42,12 @@ async def bio(ctx):
   print("Commande bio")
   await ctx.respond(f"Je suis Marvin, un robot de l'univers de H2G2. J'ai été développé afin de subvenir aux besoins du serveur Club Epigaming. Maintenant que je suis là l'avenir de ce serveur est sauvé!")
 
+@bot.slash_command(name="ban", description="its a ban !")
+async def ban(ctx: discord.ApplicationContext):
+    if ctx.author.guild_permissions.ban_members:
+      print("its a test")
+    else:
+       print("pas la perm")
+
+
 bot.run(TOKEN)
