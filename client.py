@@ -3,6 +3,8 @@ from discord import bot
 from json import loads
 from pathlib import Path
 
+from ressource.help import *
+
 config = loads(Path("config.json").read_text())
 
 TOKEN = config["token"]
@@ -48,6 +50,12 @@ async def ban(ctx: discord.ApplicationContext):
       print("its a test")
     else:
        print("pas la perm")
+
+@bot.slash_command(name="help", description="The help function")
+async def help(interaction : discord.Interaction):
+  print("Commande help")
+  embed = discord.Embed(title=f"This is the /help command", description=my_help())
+  await interaction.response.send_message(embed=embed)
 
 
 bot.run(TOKEN)
