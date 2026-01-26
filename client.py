@@ -9,6 +9,7 @@ from time import *
 from ressource.help import *
 from ressource.smash import *
 
+import datetime
 asyncio.set_event_loop(asyncio.new_event_loop())
 
 config = loads(Path("config.json").read_text())
@@ -19,6 +20,13 @@ GUILD_ID = 1429857134052638962
 bot = discord.Bot()
 
 basecommand = bot.create_group("base", "Greet people")
+
+def time_to_timestamp(date_str):
+    dt = datetime.datetime.strptime(date_str, "%d/%m/%Y")
+    dt = dt.replace(tzinfo=datetime.timezone.utc)
+    return int(dt.timestamp())
+
+print(f"{time_to_timestamp("26/01/2026")}")
 
 @bot.event
 async def on_ready():
