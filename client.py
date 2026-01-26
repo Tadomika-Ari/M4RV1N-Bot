@@ -1,14 +1,20 @@
+import asyncio
+from datetime import timedelta
 import discord
 from discord import bot
 from json import loads
 from pathlib import Path
+from time import *
 
 from ressource.help import *
 from ressource.smash import *
 
+asyncio.set_event_loop(asyncio.new_event_loop())
+
 config = loads(Path("config.json").read_text())
 
 TOKEN = config["token"]
+GUILD_ID = 1429857134052638962
 
 bot = discord.Bot()
 
@@ -60,6 +66,34 @@ async def ban(ctx: discord.ApplicationContext):
     else:
         await ctx.respond("Tu n’as pas le rôle requis.", ephemeral=True)
 
+@bot.slash_command(name="purge", description="Clear un salon pour le rendre clean", guild_ids=[GUILD_ID])
+async def purge(ctx: discord.ApplicationContext, nb_message: int):
+   allowed_role = ["Fondateur", "Modérateur"]
+   print("Commande Purge")
+   embed = discord.Embed(title="PURGE !", description="Purge terminé")
+   embed.set_image(url="https://images-ext-1.discordapp.net/external/HiaeokP0KFI8PXVeq_SpiMNZ9-Qe0cQsQWicSn35PGo/https/media.tenor.com/FwNuvPzK6IIAAAPo/nuke-it-olliesblog-olliesblog-nuke-it.mp4")
+   if any(role.name in allowed_role for role in ctx.author.roles):
+      if (nb_message < 1):
+            await ctx.respond("nb de message pas assez", ephemeral=True)
+            return
+      if (nb_message > 100):
+            await ctx.respond("nb de message au dessus de 100", ephemeral=True)
+            return
+      await ctx.respond("Purge en cours...", ephemeral=True)
+      messages = [message async for message in ctx.channel.history(limit=nb_message)]
+      now = discord.utils.utcnow()
+      recent = [m for m in messages if (now - m.created_at) < timedelta(days=14)]
+      old = [m for m in messages if m not in recent]
+      if recent:
+        await ctx.channel.delete_messages(recent)
+      for message in old:
+        await message.delete()
+      await ctx.followup.send(embed=embed)
+      sleep(5)
+      await ctx.channel.purge(limit=1)
+   else:
+      await ctx.respond("Tu n’as pas le rôle requis.", ephemeral=True)
+
 @bot.slash_command(name="banlist", description="Choisie le jeu et le nombre, je m'occupe du reste")
 async def tabban(interaction : discord.Interaction, name : str, nb: int):
   print("ok1")
@@ -74,6 +108,32 @@ async def admin_only(ctx):
         await ctx.respond("Commande admin exécutée !")
     else:
         await ctx.respond("Tu n’as pas le rôle requis.", ephemeral=True)
+
+@bot.slash_command(name="pokepitech", description="Info pour pokepitech", guild_ids=[GUILD_ID])
+async def pokepitech(interaction : discord.Interaction):
+   print("Commande pokepitech")
+   embed = discord.Embed(title=f"Info pour le serveur MC Pokepitech", description="Le serveur est ouvert 24h/24\n " \
+   "C'est un serveur Minecraft moddé basé sur le modpack Cobblemon\n")
+   embed.add_field(name="Comment Rejoindre ?", value="Pour y accéder, il vous faut installer le modpack via forge !" \
+   "Il vous faut donc installer CursForge via ce [lien](https://www.curseforge.com/download/app)\n" \
+   "\n" \
+   "Puis installer le modpack CurseForge : https://www.curseforge.com/minecraft/modpacks/cobblemon-academy-2-0/\n" \
+   "ET VOILA ! Vous pouvez accéder au serveur via cette IP : srv1296100.hstgr.cloud:25565\n")
+   embed.set_footer(text="Mise en place par les membres du club EpiGaming")
+   await interaction.response.send_message(embed=embed)
+
+@bot.slash_command(name="episerv", description="Info pour l'Episerv", guild_ids=[GUILD_ID])
+async def pokepitech(interaction : discord.Interaction):
+   print("Commande Episerv")
+   embed = discord.Embed(title=f"Info pour le serveur MC Episerv !", description="Le serveur n'est pas encore ouvert\n " \
+   "C'est un serveur Minecraft moddé basé sur un modpack fait maison\n")
+   embed.add_field(name="Comment Rejoindre ?", value="Pour y accéder, il vous faut installer le modpack via forge !" \
+   "Il vous faut donc installer CursForge via ce [lien](https://www.curseforge.com/download/app)\n" \
+   "\n" \
+   "Puis installer le modpack CurseForge : Pas encore\n" \
+   "ET VOILA ! Vous pouvez accéder au serveur via cette IP : Pas encore\n")
+   await interaction.response.send_message(embed=embed)
+
 
 @bot.slash_command(name="help", description="The help function")
 async def help(interaction : discord.Interaction):
