@@ -7,6 +7,7 @@ from time import *
 
 from ressource.help import *
 from ressource.smash import *
+from ressource.time import *
 
 import datetime
 asyncio.set_event_loop(asyncio.new_event_loop())
@@ -189,6 +190,12 @@ async def pokepitech(interaction : discord.Interaction):
 async def help(interaction : discord.Interaction):
   print("Commande help")
   embed = discord.Embed(title=f"This is the /help command", description=my_help())
+  await interaction.response.send_message(embed=embed)
+
+@bot.slash_command(name="time", description="The uptime command")
+async def time(interaction : discord.Interaction):
+  print("Commande time")
+  embed = discord.Embed(title=f"Marvin's callendar:", description=get_time())
   await interaction.response.send_message(embed=embed)
 
 @bot.slash_command(name="mod_installation", description="Info pour installer un mod", guild_ids=[GUILD_ID])
