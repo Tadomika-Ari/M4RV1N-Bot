@@ -2,8 +2,7 @@ import asyncio
 from datetime import timedelta
 import discord
 from discord import bot
-from json import loads
-from pathlib import Path
+from os import getenv
 from time import *
 
 from ressource.help import *
@@ -12,10 +11,11 @@ from ressource.smash import *
 import datetime
 asyncio.set_event_loop(asyncio.new_event_loop())
 
-config = loads(Path("config.json").read_text())
+TOKEN = getenv("DISCORD_TOKEN")
+GUILD_ID = int(getenv("GUILD_ID", "1429857134052638962"))
 
-TOKEN = config["token"]
-GUILD_ID = 1429857134052638962
+if not TOKEN:
+    raise ValueError("DISCORD_TOKEN environment variable not set")
 
 bot = discord.Bot()
 
