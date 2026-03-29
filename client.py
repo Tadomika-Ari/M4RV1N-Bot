@@ -149,5 +149,40 @@ async def help(interaction : discord.Interaction):
   embed = discord.Embed(title=f"This is the /help command", description=my_help())
   await interaction.response.send_message(embed=embed)
 
+@bot.slash_command(name="mod_installation", description="Info pour installer un mod", guild_ids=[GUILD_ID])
+async def tuto_mod(interaction : discord.Interaction):
+   print("Commande tuto_mod")
+   embed = discord.Embed(
+    title="Tutoriel : Comment installer un mod",
+    description=(
+        "Installer des mods peut sembler compliqué au début, mais en réalité c’est assez simple une fois que l’on connaît les bonnes étapes.\n\n"
+        "Avant de commencer, vous devez :\n"
+        "• Choisir la **version du jeu** compatible avec le mod\n"
+        "• Choisir le **type de mod loader** (exemples : Forge, Fabric, NeoForge)\n"))
+   embed.add_field(
+    name="Comment installer un mod ?",
+    value=(
+        "**Méthode recommandée (la plus simple)**\n"
+        "Utilisez une application tierce comme :\n"
+        "• CurseForge : https://www.curseforge.com/download/app\n"
+        "• Modrinth : https://modrinth.com/app\n\n"
+        "**Étapes avec Modrinth / CurseForge**\n"
+        "1. Lancez l'application\n"
+        "2. Cliquez sur le bouton **[ + ]** pour créer une nouvelle instance / modpack\n"
+        "3. Choisissez la version du jeu et le mod loader souhaité\n\n"
+        "**Ajouter des mods**\n"
+        "• Si vous avez déjà un modpack, vous pouvez sauter l’étape précédente\n"
+        "• Ouvrez votre modpack\n"
+        "• Cliquez sur **[ + Add content ]** ou **[ Browse content ]**\n"
+        "• Recherchez les mods que vous souhaitez installer\n"
+        "• Cliquez sur **Installer**\n\n"
+        "Et voilà ! Vos mods sont prêts à être utilisés.\n\n"
+        "**Conseils utiles** :\n"
+        "• Vérifiez toujours la compatibilité des mods entre eux\n"
+        "• Assurez-vous que tous les mods utilisent le même mod loader\n"
+        "• Évitez de mélanger Forge et Fabric dans un même modpack\n"),inline=False)
+   embed.set_footer(text="Guide fait par Alessandro P.")
+   await interaction.response.send_message(embed=embed)
+
 
 bot.run(TOKEN)
