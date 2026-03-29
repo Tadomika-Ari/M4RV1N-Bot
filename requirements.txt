@@ -1,2 +1,1 @@
 py-cord>=2.5.0
-audioop-lts>=0.2.2
