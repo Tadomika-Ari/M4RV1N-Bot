@@ -143,14 +143,17 @@ async def tabban(interaction : discord.Interaction, name : str, nb: int):
   print("ok1")
   match (name):
       case "smash":
-        list = random_ban_character(smash_character_list, nb)
+        liste = random_ban_character(smash_character_list, nb)
       case "lol":
-        list = random_ban_character(lol_character_list, nb)
+        liste = random_ban_character(lol_character_list, nb)
       case _:
-        list = []
+        liste = []
   
-  embed = discord.Embed(title=f"La ban list de Smash", description="La list de ban pour cette partie est la suivante : ")
-  embed.add_field(name=name, value=list)
+  if (liste == []):
+     embed = discord.Embed(title=f"Probleme d'argument: [" + name + ']', description="jeu incorrect ou indisponible, utilise la commande help pour plus d'info")
+  else :
+    embed = discord.Embed(title=f"La ban list de " + name, description="La list de ban pour cette partie est la suivante : ")
+  embed.add_field(name=name, value=liste)
   await interaction.response.send_message(embed=embed)
 
 @bot.slash_command(name="admin_only", description="Commande réservée aux admins")
