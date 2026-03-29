@@ -7,6 +7,7 @@ from time import *
 
 from ressource.help import *
 from ressource.smash import *
+from ressource.time import *
 
 import datetime
 asyncio.set_event_loop(asyncio.new_event_loop())
@@ -142,14 +143,17 @@ async def tabban(interaction : discord.Interaction, name : str, nb: int):
   print("ok1")
   match (name):
       case "smash":
-        list = random_ban_character(smash_character_list, nb)
+        liste = random_ban_character(smash_character_list, nb)
       case "lol":
-        list = random_ban_character(lol_character_list, nb)
+        liste = random_ban_character(lol_character_list, nb)
       case _:
-        list = []
+        liste = []
   
-  embed = discord.Embed(title=f"La ban list de Smash", description="La list de ban pour cette partie est la suivante : ")
-  embed.add_field(name=name, value=list)
+  if (liste == []):
+     embed = discord.Embed(title=f"Probleme d'argument: [" + name + ']', description="jeu incorrect ou indisponible, utilise la commande help pour plus d'info")
+  else :
+    embed = discord.Embed(title=f"La ban list de " + name, description="La list de ban pour cette partie est la suivante : ")
+  embed.add_field(name=name, value=liste)
   await interaction.response.send_message(embed=embed)
 
 @bot.slash_command(name="admin_only", description="Commande réservée aux admins")
@@ -189,6 +193,12 @@ async def pokepitech(interaction : discord.Interaction):
 async def help(interaction : discord.Interaction):
   print("Commande help")
   embed = discord.Embed(title=f"This is the /help command", description=my_help())
+  await interaction.response.send_message(embed=embed)
+
+@bot.slash_command(name="time", description="The uptime command")
+async def time(interaction : discord.Interaction):
+  print("Commande time")
+  embed = discord.Embed(title=f"Marvin's callendar:", description=get_time())
   await interaction.response.send_message(embed=embed)
 
 @bot.slash_command(name="mod_installation", description="Info pour installer un mod", guild_ids=[GUILD_ID])
