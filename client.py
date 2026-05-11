@@ -4,7 +4,6 @@ import discord
 from discord import bot
 from os import getenv
 from time import *
-
 from ressource.help import *
 from ressource.smash import *
 from ressource.time import *
