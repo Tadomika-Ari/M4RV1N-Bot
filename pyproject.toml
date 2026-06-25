@@ -1,4 +1,2 @@
-[
-tool.vercel
-]
+[tool.vercel]
 entrypoint = "main.py"
