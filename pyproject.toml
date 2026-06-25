@@ -1,2 +1,4 @@
-[tool.vercel]
-entrypoint = "client.py"
+[
+tool.vercel
+]
+entrypoint = "main.py"
